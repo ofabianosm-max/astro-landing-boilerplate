@@ -1,0 +1,310 @@
+backend:
+  name: github
+  repo: GITHUB_OWNER/GITHUB_REPO
+  branch: main
+  base_url: https://OAUTH_WORKER_URL
+
+media_folder: public/SLUG_CLIENTE/images
+public_folder: /SLUG_CLIENTE/images
+
+locale: pt
+
+collections:
+
+  # ─── INFORMAÇÕES GERAIS ─────────────────────────────────────────
+  - name: config
+    label: "Informações do Site"
+    files:
+      - name: site_config
+        label: "Dados da Empresa"
+        file: src/config/SLUG_CLIENTE.ts
+        fields:
+          - label: "Nome do Negócio"
+            name: "nap.businessName"
+            widget: string
+          - label: "Telefone (com DDI)"
+            name: "nap.phone"
+            widget: string
+            hint: "Ex: +5554999990000"
+          - label: "WhatsApp (só dígitos)"
+            name: "nap.whatsapp"
+            widget: string
+            hint: "Ex: 5554999990000"
+          - label: "Email"
+            name: "nap.email"
+            widget: string
+            required: false
+          - label: "Rua"
+            name: "nap.address.street"
+            widget: string
+          - label: "Número"
+            name: "nap.address.number"
+            widget: string
+          - label: "Bairro"
+            name: "nap.address.neighborhood"
+            widget: string
+          - label: "Cidade"
+            name: "nap.address.city"
+            widget: string
+          - label: "Horários de Funcionamento"
+            name: "nap.openingHours"
+            widget: list
+            field:
+              label: Horário
+              name: horario
+              widget: string
+              hint: "Ex: Segunda a Sexta: 8h às 18h"
+
+  # ─── HERO ───────────────────────────────────────────────────────
+  - name: hero
+    label: "Seção Principal (Hero)"
+    files:
+      - name: hero
+        label: "Hero"
+        file: src/content/SLUG_CLIENTE/hero.json
+        fields:
+          - label: "Título Principal"
+            name: headline
+            widget: string
+            hint: "Máximo 80 caracteres"
+          - label: "Subtítulo"
+            name: subheadline
+            widget: string
+            hint: "Máximo 160 caracteres"
+          - label: "Texto do Botão Principal"
+            name: ctaLabel
+            widget: string
+          - label: "Link do Botão Principal"
+            name: ctaUrl
+            widget: string
+          - label: "Texto do Botão Secundário"
+            name: ctaSecondaryLabel
+            widget: string
+            required: false
+          - label: "Link do Botão Secundário"
+            name: ctaSecondaryUrl
+            widget: string
+            required: false
+          - label: "Imagem"
+            name: image
+            widget: image
+          - label: "Descrição da Imagem (alt)"
+            name: imageAlt
+            widget: string
+          - label: "Badge de Destaque"
+            name: badge
+            widget: string
+            required: false
+            hint: "Ex: Mais de 500 pacientes"
+
+  # ─── SERVIÇOS ───────────────────────────────────────────────────
+  - name: services
+    label: "Serviços"
+    files:
+      - name: services
+        label: "Lista de Serviços"
+        file: src/content/SLUG_CLIENTE/services.json
+        fields:
+          - label: "Título da Seção"
+            name: sectionTitle
+            widget: string
+          - label: "Subtítulo"
+            name: sectionSubtitle
+            widget: string
+            required: false
+          - label: "Serviços"
+            name: items
+            widget: list
+            fields:
+              - label: "Nome do Serviço"
+                name: name
+                widget: string
+              - label: "Descrição"
+                name: description
+                widget: text
+                hint: "Máximo 250 caracteres"
+              - label: "Preço"
+                name: price
+                widget: string
+                required: false
+                hint: "Ex: A partir de R$ 150"
+              - label: "Destaque"
+                name: highlight
+                widget: boolean
+                default: false
+                required: false
+
+  # ─── DIFERENCIAIS ───────────────────────────────────────────────
+  - name: benefits
+    label: "Diferenciais"
+    files:
+      - name: benefits
+        label: "Lista de Diferenciais"
+        file: src/content/SLUG_CLIENTE/benefits.json
+        fields:
+          - label: "Título da Seção"
+            name: sectionTitle
+            widget: string
+          - label: "Subtítulo"
+            name: sectionSubtitle
+            widget: string
+            required: false
+          - label: "Diferenciais"
+            name: items
+            widget: list
+            fields:
+              - label: "Título"
+                name: title
+                widget: string
+                hint: "Máximo 50 caracteres"
+              - label: "Descrição"
+                name: description
+                widget: text
+                hint: "Máximo 200 caracteres"
+
+  # ─── DEPOIMENTOS ────────────────────────────────────────────────
+  - name: testimonials
+    label: "Depoimentos"
+    files:
+      - name: testimonials
+        label: "Lista de Depoimentos"
+        file: src/content/SLUG_CLIENTE/testimonials.json
+        fields:
+          - label: "Título da Seção"
+            name: sectionTitle
+            widget: string
+          - label: "Avaliação Geral"
+            name: aggregateRating
+            widget: object
+            required: false
+            fields:
+              - label: "Nota (ex: 4.8)"
+                name: ratingValue
+                widget: number
+                value_type: float
+                min: 1
+                max: 5
+              - label: "Número de Avaliações"
+                name: reviewCount
+                widget: number
+          - label: "Depoimentos"
+            name: items
+            widget: list
+            fields:
+              - label: "Nome"
+                name: name
+                widget: string
+              - label: "Cargo / Papel"
+                name: role
+                widget: string
+                required: false
+                hint: "Ex: Paciente, Cliente"
+              - label: "Foto"
+                name: avatar
+                widget: image
+                required: false
+              - label: "Depoimento"
+                name: text
+                widget: text
+                hint: "Máximo 300 caracteres"
+              - label: "Avaliação (1-5)"
+                name: rating
+                widget: number
+                min: 1
+                max: 5
+                default: 5
+
+  # ─── FAQ ────────────────────────────────────────────────────────
+  - name: faq
+    label: "Perguntas Frequentes"
+    files:
+      - name: faq
+        label: "FAQ"
+        file: src/content/SLUG_CLIENTE/faq.json
+        fields:
+          - label: "Título da Seção"
+            name: sectionTitle
+            widget: string
+          - label: "Perguntas"
+            name: items
+            widget: list
+            fields:
+              - label: "Pergunta"
+                name: question
+                widget: string
+              - label: "Resposta"
+                name: answer
+                widget: text
+
+  # ─── SOBRE ──────────────────────────────────────────────────────
+  - name: about
+    label: "Sobre"
+    files:
+      - name: about
+        label: "Seção Sobre"
+        file: src/content/SLUG_CLIENTE/about.json
+        fields:
+          - label: "Título da Seção"
+            name: sectionTitle
+            widget: string
+          - label: "Descrição"
+            name: description
+            widget: text
+          - label: "Foto"
+            name: image
+            widget: image
+          - label: "Descrição da Foto (alt)"
+            name: imageAlt
+            widget: string
+          - label: "Nome (se profissional)"
+            name: name
+            widget: string
+            required: false
+          - label: "Credenciais"
+            name: credentials
+            widget: list
+            required: false
+            field:
+              label: Credencial
+              name: credencial
+              widget: string
+              hint: "Ex: CRM 12345, OAB/RS 67890"
+          - label: "Destaques"
+            name: highlights
+            widget: list
+            required: false
+            fields:
+              - label: "Rótulo"
+                name: label
+                widget: string
+                hint: "Ex: Anos de experiência"
+              - label: "Valor"
+                name: value
+                widget: string
+                hint: "Ex: 15+"
+
+  # ─── CONTATO ────────────────────────────────────────────────────
+  - name: contact
+    label: "Contato"
+    files:
+      - name: contact
+        label: "Seção de Contato"
+        file: src/content/SLUG_CLIENTE/contact.json
+        fields:
+          - label: "Título da Seção"
+            name: sectionTitle
+            widget: string
+          - label: "Subtítulo"
+            name: sectionSubtitle
+            widget: string
+            required: false
+          - label: "WhatsApp (só dígitos)"
+            name: whatsapp
+            widget: string
+          - label: "Email"
+            name: email
+            widget: string
+          - label: "Assunto padrão do email"
+            name: emailSubject
+            widget: string
+            required: false
