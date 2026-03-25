@@ -1,0 +1,246 @@
+---
+interface ServiceItem {
+  name: string;
+  description: string;
+  icon?: string;
+  image?: string;
+  price?: string;
+  highlight?: boolean;
+}
+
+interface Props {
+  sectionTitle: string;
+  sectionSubtitle?: string;
+  items: ServiceItem[];
+  variant?: 'cards' | 'list' | 'tabs' | 'grid-2col';
+  background?: 'white' | 'gray' | 'brand';
+}
+
+const {
+  sectionTitle,
+  sectionSubtitle,
+  items,
+  variant = 'cards',
+  background = 'white',
+} = Astro.props;
+
+const bgClasses = {
+  white: 'bg-white',
+  gray: 'bg-[#f8fafc]',
+  brand: 'bg-[var(--color-primary)]',
+};
+
+const textClasses = {
+  white: 'text-gray-900',
+  gray: 'text-gray-900',
+  brand: 'text-white',
+};
+
+const subtitleClasses = {
+  white: 'text-gray-600',
+  gray: 'text-gray-600',
+  brand: 'text-white/80',
+};
+
+const iconSvgMap: Record<string, string> = {
+  'tooth': '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4V2m0 2a4 4 0 00-4 4v1a4 4 0 008 0v-1a4 4 0 00-4-4zm0 6V6m0 10v2m8-2v-1a4 4 0 00-8 0v1a4 4 0 008 0zm0 0v2m-8-2h8m-8 0H4m8 0h.01M12 12h.01"/>',
+  'star': '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>',
+  'heart': '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>',
+  'scissors': '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758a3 3 0 10-4.243-4.243 3 3 0 004.243 4.243zM5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>',
+  'shield': '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>',
+  'default': '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>',
+};
+
+const getIconSvg = (iconName?: string): string => {
+  if (!iconName) return iconSvgMap['default'];
+  return iconSvgMap[iconName] || iconSvgMap['default'];
+};
+---
+
+<section id="services" class={`py-16 md:py-24 ${bgClasses[background]}`}>
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-12">
+      <h2 class={`text-3xl md:text-4xl font-bold mb-4 ${textClasses[background]}`}>
+        {sectionTitle}
+      </h2>
+      {sectionSubtitle && (
+        <p class={`text-lg max-w-2xl mx-auto ${subtitleClasses[background]}`}>
+          {sectionSubtitle}
+        </p>
+      )}
+    </div>
+
+    {variant === 'cards' && (
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {items.map((item) => (
+          <div
+            class={`relative rounded-xl p-6 transition-all hover:shadow-lg ${
+              item.highlight
+                ? 'border-2 shadow-md'
+                : 'border border-gray-200 bg-white'
+            }`}
+            style={item.highlight ? `border-color: var(--color-primary);` : ''}
+          >
+            {item.highlight && (
+              <span
+                class="absolute -top-3 left-4 px-3 py-1 text-xs font-semibold rounded-full text-white"
+                style="background-color: var(--color-primary);"
+              >
+                Destaque
+              </span>
+            )}
+            <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-4 bg-[var(--color-primary)]/10">
+              <svg
+                class="w-6 h-6 text-[var(--color-primary)]"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                set:html={getIconSvg(item.icon)}
+              />
+            </div>
+            <h3 class="text-xl font-semibold mb-2 text-gray-900">{item.name}</h3>
+            <p class="text-gray-600 mb-4">{item.description}</p>
+            {item.price && (
+              <span
+                class="inline-block px-3 py-1 rounded-full text-sm font-medium"
+                style="background-color: var(--color-primary); color: white;"
+              >
+                {item.price}
+              </span>
+            )}
+          </div>
+        ))}
+      </div>
+    )}
+
+    {variant === 'list' && (
+      <div class="max-w-3xl mx-auto">
+        {items.map((item, index) => (
+          <div class="flex items-start gap-4 py-6 border-b border-gray-200 last:border-0">
+            <div
+              class="flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center"
+              style="background-color: var(--color-primary);"
+            >
+              <svg
+                class="w-6 h-6 text-white"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                set:html={getIconSvg(item.icon)}
+              />
+            </div>
+            <div class="flex-1">
+              <h3 class="text-lg font-semibold mb-1 text-gray-900">{item.name}</h3>
+              <p class="text-gray-600 mb-2">{item.description}</p>
+              {item.price && (
+                <span class="text-sm font-medium" style="color: var(--color-primary);">
+                  {item.price}
+                </span>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+
+    {variant === 'tabs' && (
+      <div>
+        <div class="flex flex-wrap border-b border-gray-200 justify-center gap-2 mb-8">
+          {items.map((item, index) => (
+            <button
+              data-tab-trigger={index}
+              class={`px-6 py-3 font-medium transition-all border-b-2 ${
+                index === 0
+                  ? 'border-[var(--color-primary)] text-[var(--color-primary)]'
+                  : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              {item.name}
+            </button>
+          ))}
+        </div>
+        {items.map((item, index) => (
+          <div data-tab-content={index} class={index === 0 ? '' : 'hidden'}>
+            <div class="max-w-3xl mx-auto text-center py-8">
+              <div
+                class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"
+                style="background-color: var(--color-primary);"
+              >
+                <svg
+                  class="w-8 h-8 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  set:html={getIconSvg(item.icon)}
+                />
+              </div>
+              <h3 class="text-2xl font-bold mb-4 text-gray-900">{item.name}</h3>
+              <p class="text-gray-600 mb-4">{item.description}</p>
+              {item.price && (
+                <span
+                  class="inline-block px-4 py-2 rounded-lg font-semibold text-white"
+                  style="background-color: var(--color-primary);"
+                >
+                  {item.price}
+                </span>
+              )}
+            </div>
+          </div>
+        ))}
+        <script>
+          document.querySelectorAll('[data-tab-trigger]').forEach((btn, i) => {
+            btn.addEventListener('click', () => {
+              document.querySelectorAll('[data-tab-content]').forEach(c => c.classList.add('hidden'));
+              document.querySelector(`[data-tab-content="${i}"]`)?.classList.remove('hidden');
+              document.querySelectorAll('[data-tab-trigger]').forEach((b, j) => {
+                b.classList.toggle('border-[var(--color-primary)]', j === i);
+                b.classList.toggle('border-transparent', j !== i);
+                b.classList.toggle('text-[var(--color-primary)]', j === i);
+                b.classList.toggle('text-gray-500', j !== i);
+              });
+            });
+          });
+        </script>
+      </div>
+    )}
+
+    {variant === 'grid-2col' && (
+      <div class="grid md:grid-cols-2 gap-6">
+        {items.map((item) => (
+          <div
+            class={`rounded-xl p-6 border ${item.highlight ? 'border-2' : 'border-gray-200'} bg-white`}
+            style={item.highlight ? `border-color: var(--color-primary);` : ''}
+          >
+            <div class="flex gap-4">
+              <div
+                class="flex-shrink-0 w-14 h-14 rounded-lg flex items-center justify-center"
+                style="background-color: var(--color-primary);"
+              >
+                <svg
+                  class="w-7 h-7 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  set:html={getIconSvg(item.icon)}
+                />
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold mb-1 text-gray-900">{item.name}</h3>
+                <p class="text-gray-600 text-sm mb-2">{item.description}</p>
+                {item.price && (
+                  <span class="text-sm font-semibold" style="color: var(--color-primary);">
+                    {item.price}
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+</section>

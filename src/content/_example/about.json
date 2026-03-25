@@ -1,0 +1,17 @@
+{
+  "variant": "professional",
+  "sectionTitle": "Dra. Ana Clara Mendes",
+  "description": "Cirurgiã-dentista com mais de 15 anos de experiência em implantodontia e estética dental. Formada pela Universidade Federal do Rio Grande do Sul, com especialização emharmonização orofacial e Implantologia Avançada. Apaixonada por transformar sorrisos e devolver a qualidade de vida dos pacientes.",
+  "image": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&q=80",
+  "imageAlt": "Dra. Ana Clara Mendes - Cirurgiã Dentista",
+  "highlights": [
+    { "label": "Anos de experiência", "value": "15+" },
+    { "label": "Implantes realizados", "value": "2.500+" },
+    { "label": "Pacientes atendidos", "value": "5.000+" },
+    { "label": "Satisfação", "value": "98%" }
+  ],
+  "name": "Dra. Ana Clara Mendes",
+  "credentials": ["CRO-RS 15432", "Especialista em Implantodontia", "Especialista em Harmonização Orofacial"],
+  "imagePosition": "left",
+  "background": "white"
+}

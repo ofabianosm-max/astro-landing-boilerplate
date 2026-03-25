@@ -1,0 +1,176 @@
+---
+interface Props {
+  headline: string;
+  subheadline: string;
+  ctaLabel: string;
+  ctaUrl: string;
+  ctaSecondaryLabel?: string;
+  ctaSecondaryUrl?: string;
+  image: string;
+  imageAlt: string;
+  badge?: string;
+  variant?: 'centered' | 'split-left' | 'split-right' | 'fullscreen';
+  background?: 'white' | 'brand' | 'dark' | 'image';
+}
+
+const {
+  headline,
+  subheadline,
+  ctaLabel,
+  ctaUrl,
+  ctaSecondaryLabel,
+  ctaSecondaryUrl,
+  image,
+  imageAlt,
+  badge,
+  variant = 'centered',
+  background = 'white',
+} = Astro.props;
+
+const bgClasses = {
+  white: 'bg-white',
+  brand: 'bg-[var(--color-primary)]',
+  dark: 'bg-[#0f172a]',
+  image: 'bg-cover bg-center relative',
+};
+
+const textClasses = {
+  white: 'text-gray-900',
+  brand: 'text-white',
+  dark: 'text-white',
+  image: 'text-white',
+};
+
+const getBgStyle = () => {
+  if (background === 'image') {
+    return `background-image: url('${image}');`;
+  }
+  return '';
+};
+
+const showOverlay = background === 'image' || background === 'fullscreen';
+---
+
+{background === 'image' ? (
+  <section id="hero" class="relative min-h-[600px] flex items-center" style={getBgStyle()}>
+    <div class="absolute inset-0 bg-black/60" />
+    <div class="relative z-10 container mx-auto px-4 py-20 text-center">
+      {badge && (
+        <span class="inline-block px-4 py-1.5 rounded-full text-sm font-medium border-2 mb-6"
+          style="color: var(--color-primary); border-color: var(--color-primary);">
+          {badge}
+        </span>
+      )}
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 max-w-4xl mx-auto">
+        {headline}
+      </h1>
+      <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto opacity-90">
+        {subheadline}
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a
+          href={ctaUrl}
+          class="inline-flex items-center justify-center px-8 py-3 rounded-lg font-semibold text-white transition-all hover:scale-105"
+          style="background-color: var(--color-primary);"
+        >
+          {ctaLabel}
+        </a>
+        {ctaSecondaryLabel && ctaSecondaryUrl && (
+          <a
+            href={ctaSecondaryUrl}
+            class="inline-flex items-center justify-center px-8 py-3 rounded-lg font-semibold border-2 border-white transition-all hover:bg-white/10"
+          >
+            {ctaSecondaryLabel}
+          </a>
+        )}
+      </div>
+    </div>
+  </section>
+) : (
+  <section id="hero" class={`min-h-[600px] flex items-center ${bgClasses[background]}`}>
+    <div class="container mx-auto px-4 py-20">
+      {(variant === 'centered' || variant === 'fullscreen') && (
+        <div class="max-w-4xl mx-auto text-center">
+          {badge && (
+            <span class="inline-block px-4 py-1.5 rounded-full text-sm font-medium border-2 mb-6"
+              style={`color: ${background === 'white' ? 'var(--color-primary)' : 'white'}; border-color: ${background === 'white' ? 'var(--color-primary)' : 'white'};`}>
+              {badge}
+            </span>
+          )}
+          <h1 class={`text-4xl md:text-5xl lg:text-6xl font-bold mb-6 ${textClasses[background]}`}>
+            {headline}
+          </h1>
+          <p class={`text-lg md:text-xl mb-8 max-w-2xl mx-auto ${background === 'white' ? 'text-gray-600' : 'opacity-90'}`}>
+            {subheadline}
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href={ctaUrl}
+              class="inline-flex items-center justify-center px-8 py-3 rounded-lg font-semibold transition-all hover:scale-105"
+              style={`background-color: var(--color-primary); color: white;`}
+            >
+              {ctaLabel}
+            </a>
+            {ctaSecondaryLabel && ctaSecondaryUrl && (
+              <a
+                href={ctaSecondaryUrl}
+                class={`inline-flex items-center justify-center px-8 py-3 rounded-lg font-semibold border-2 transition-all hover:scale-105 ${
+                  background === 'white'
+                    ? 'border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white'
+                    : 'border-white hover:bg-white hover:text-gray-900'
+                }`}
+              >
+                {ctaSecondaryLabel}
+              </a>
+            )}
+          </div>
+        </div>
+      )}
+
+      {(variant === 'split-left' || variant === 'split-right') && (
+        <div class={`grid md:grid-cols-2 gap-12 items-center ${variant === 'split-left' ? '' : 'md:flex-row-reverse'}`}>
+          <div class={variant === 'split-left' ? 'order-1' : 'order-1 md:order-2'}>
+            {badge && (
+              <span class="inline-block px-4 py-1.5 rounded-full text-sm font-medium border-2 mb-6"
+                style={`color: var(--color-primary); border-color: var(--color-primary);`}>
+                {badge}
+              </span>
+            )}
+            <h1 class={`text-4xl md:text-5xl font-bold mb-6 ${textClasses[background]}`}>
+              {headline}
+            </h1>
+            <p class={`text-lg mb-8 ${background === 'white' ? 'text-gray-600' : 'opacity-90'}`}>
+              {subheadline}
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4">
+              <a
+                href={ctaUrl}
+                class="inline-flex items-center justify-center px-8 py-3 rounded-lg font-semibold text-white transition-all hover:scale-105"
+                style="background-color: var(--color-primary);"
+              >
+                {ctaLabel}
+              </a>
+              {ctaSecondaryLabel && ctaSecondaryUrl && (
+                <a
+                  href={ctaSecondaryUrl}
+                  class="inline-flex items-center justify-center px-8 py-3 rounded-lg font-semibold border-2 border-[var(--color-primary)] text-[var(--color-primary)] transition-all hover:bg-[var(--color-primary)] hover:text-white"
+                >
+                  {ctaSecondaryLabel}
+                </a>
+              )}
+            </div>
+          </div>
+          <div class={`order-2 ${variant === 'split-left' ? 'md:order-2' : 'md:order-1'}`}>
+            <img
+              src={image}
+              alt={imageAlt}
+              loading="eager"
+              fetchpriority="high"
+              class="w-full h-auto rounded-2xl shadow-2xl object-cover"
+            />
+          </div>
+        </div>
+      )}
+    </div>
+  </section>
+)}

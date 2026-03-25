@@ -1,0 +1,168 @@
+---
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  sectionTitle: string;
+  sectionSubtitle?: string;
+  items: FAQItem[];
+  variant?: 'accordion' | 'two-column' | 'card-grid';
+  background?: 'white' | 'gray';
+}
+
+const {
+  sectionTitle,
+  sectionSubtitle,
+  items,
+  variant = 'accordion',
+  background = 'white',
+} = Astro.props;
+
+const bgClasses = {
+  white: 'bg-white',
+  gray: 'bg-[#f8fafc]',
+};
+
+const textClasses = {
+  white: 'text-gray-900',
+  gray: 'text-gray-900',
+};
+
+const subtitleClasses = {
+  white: 'text-gray-600',
+  gray: 'text-gray-600',
+};
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: items.map(item => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+---
+
+<Fragment slot="head-extra">
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+</Fragment>
+
+<section id="faq" class={`py-16 md:py-24 ${bgClasses[background]}`}>
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-12">
+      <h2 class={`text-3xl md:text-4xl font-bold mb-4 ${textClasses[background]}`}>
+        {sectionTitle}
+      </h2>
+      {sectionSubtitle && (
+        <p class={`text-lg max-w-2xl mx-auto ${subtitleClasses[background]}`}>
+          {sectionSubtitle}
+        </p>
+      )}
+    </div>
+
+    {variant === 'accordion' && (
+      <div class="max-w-3xl mx-auto space-y-4">
+        {items.map((item, index) => (
+          <div class="faq-item border border-gray-200 rounded-xl overflow-hidden bg-white">
+            <button
+              class="faq-trigger w-full flex items-center justify-between p-6 text-left font-medium text-gray-900 hover:text-[var(--color-primary)] transition-colors"
+              aria-expanded={index === 0 ? 'true' : 'false'}
+              data-faq-index={index}
+            >
+              <span class="pr-4">{item.question}</span>
+              <svg
+                class={`faq-icon w-5 h-5 flex-shrink-0 transition-transform duration-200 ${index === 0 ? 'rotate-180' : ''}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div
+              class={`faq-content px-6 text-gray-600 ${index === 0 ? '' : 'hidden'}`}
+              data-faq-content={index}
+            >
+              <p class="pb-6 leading-relaxed">{item.answer}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+
+    {variant === 'two-column' && (
+      <div class="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+        {items.map((item, index) => (
+          <div class="faq-item border border-gray-200 rounded-xl overflow-hidden bg-white">
+            <button
+              class="faq-trigger w-full flex items-center justify-between p-6 text-left font-medium text-gray-900 hover:text-[var(--color-primary)] transition-colors"
+              aria-expanded={index === 0 ? 'true' : 'false'}
+              data-faq-index={index}
+            >
+              <span class="pr-4">{item.question}</span>
+              <svg
+                class={`faq-icon w-5 h-5 flex-shrink-0 transition-transform duration-200 ${index === 0 ? 'rotate-180' : ''}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div
+              class={`faq-content px-6 text-gray-600 ${index === 0 ? '' : 'hidden'}`}
+              data-faq-content={index}
+            >
+              <p class="pb-6 leading-relaxed">{item.answer}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+
+    {variant === 'card-grid' && (
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        {items.map((item) => (
+          <div class="bg-white rounded-xl p-6 border border-gray-200 hover:shadow-md transition-shadow">
+            <h3 class="text-lg font-semibold mb-3 text-gray-900">{item.question}</h3>
+            <p class="text-gray-600 text-sm leading-relaxed">{item.answer}</p>
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+</section>
+
+{(variant === 'accordion' || variant === 'two-column') && (
+  <script>
+    document.querySelectorAll('.faq-trigger').forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        const index = trigger.getAttribute('data-faq-index');
+        const content = document.querySelector(`[data-faq-content="${index}"]`);
+        const icon = trigger.querySelector('.faq-icon');
+        const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+
+        // Close all others
+        document.querySelectorAll('.faq-trigger').forEach((t) => {
+          t.setAttribute('aria-expanded', 'false');
+          const ic = t.querySelector('.faq-icon');
+          if (ic) ic.classList.remove('rotate-180');
+        });
+        document.querySelectorAll('.faq-content').forEach((c) => c.classList.add('hidden'));
+
+        // Toggle current
+        if (!isExpanded) {
+          trigger.setAttribute('aria-expanded', 'true');
+          if (icon) icon.classList.add('rotate-180');
+          content?.classList.remove('hidden');
+        }
+      });
+    });
+  </script>
+)}

@@ -1,0 +1,35 @@
+{
+  "sectionTitle": "O que nossos pacientes dizem",
+  "items": [
+    {
+      "name": "Mariana Costa",
+      "role": "Professora",
+      "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80",
+      "text": "Finalmente encontrei uma clínica onde não tenho medo de ir. Fiz clareamento e ficou incrível! A Dra. Ana é muito paciente e explica tudo com clareza. Recomendo de olhos fechados.",
+      "rating": 5
+    },
+    {
+      "name": "Roberto Mendes",
+      "role": "Aposentado",
+      "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80",
+      "text": "Perdi três dentes num acidente e os implantes mudaram minha vida. Posso comer de tudo novamente! O Dr. Pedro fez um trabalho excepcional. Equipe muito profissional.",
+      "rating": 5
+    },
+    {
+      "name": "Fernanda Silva",
+      "role": "Advogada",
+      "avatar": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80",
+      "text": "Meus dentes estavam terrivelmente desalinhados. O aparelho estético ficou invisível e o resultado após 18 meses ficou perfeito. Pretendo continuar fazendo minha manutenção aqui.",
+      "rating": 5
+    },
+    {
+      "name": "Carlos Eduardo",
+      "role": "Empresário",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80",
+      "text": "Atendimento rápido, sem filas, e o consultório é impecável. Fiz tratamento de canal em sessão única, algo que outros lugares prometiam mas não cumpriam. Muito satisfeito.",
+      "rating": 5
+    }
+  ],
+  "variant": "grid",
+  "background": "white"
+}

@@ -1,0 +1,38 @@
+{
+  "sectionTitle": "Por que escolher a Clínica Sorriso?",
+  "sectionSubtitle": "Conheça os diferenciais que fazem我们去 décadas de clientes satisfeitos.",
+  "items": [
+    {
+      "icon": "star",
+      "title": "Equipe Especializada",
+      "description": "8 dentistas especialistas em diferentes áreas, todos com CRO-RS ativo e formação contínua."
+    },
+    {
+      "icon": "shield",
+      "title": "Equipamentos de Última Geração",
+      "description": "Raio-X digital, scanner 3D, laser terapêutico e muito mais para diagnósticos precisos."
+    },
+    {
+      "icon": "heart",
+      "title": "Atendimento Humanizado",
+      "description": "Acolhimento genuíno desde a recepção. Entendemos sua ansiedade e trabalhamos com leveza."
+    },
+    {
+      "icon": "default",
+      "title": "Facilidade de Pagamento",
+      "description": "Parcelamento em até 24x sem juros, aceita todos os cartões e financiamento próprio."
+    },
+    {
+      "icon": "tooth",
+      "title": "Estrutura Completa",
+      "description": "600m² distribuídos em 12 consultórios, sala de cirurgia e área infantil lúdica."
+    },
+    {
+      "icon": "scissors",
+      "title": "Convênios Atendidos",
+      "description": "Mais de 30 convênios odontológicos aceitos. Consulte o seu."
+    }
+  ],
+  "variant": "icons",
+  "background": "white"
+}

@@ -1,0 +1,168 @@
+---
+interface BenefitItem {
+  icon: string;
+  title: string;
+  description: string;
+}
+
+interface Props {
+  sectionTitle: string;
+  sectionSubtitle?: string;
+  items: BenefitItem[];
+  variant?: 'grid-3' | 'grid-4' | 'icon-list' | 'numbered';
+  background?: 'white' | 'gray' | 'brand';
+}
+
+const {
+  sectionTitle,
+  sectionSubtitle,
+  items,
+  variant = 'grid-3',
+  background = 'white',
+} = Astro.props;
+
+const bgClasses = {
+  white: 'bg-white',
+  gray: 'bg-[#f8fafc]',
+  brand: 'bg-[var(--color-primary)]',
+};
+
+const textClasses = {
+  white: 'text-gray-900',
+  gray: 'text-gray-900',
+  brand: 'text-white',
+};
+
+const subtitleClasses = {
+  white: 'text-gray-600',
+  gray: 'text-gray-600',
+  brand: 'text-white/80',
+};
+
+const iconSvgMap: Record<string, string> = {
+  'clock': '<path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>',
+  'shield-check': '<path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>',
+  'users': '<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>',
+  'currency': '<path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>',
+  'sparkles': '<path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>',
+  'check-circle': '<path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>',
+  'star': '<path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>',
+  'lightning': '<path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>',
+  'trophy': '<path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>',
+  'heart': '<path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>',
+};
+
+const getIconSvg = (iconName: string): string => {
+  return iconSvgMap[iconName] || iconSvgMap['star'];
+};
+---
+
+<section id="benefits" class={`py-16 md:py-24 ${bgClasses[background]}`}>
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-12">
+      <h2 class={`text-3xl md:text-4xl font-bold mb-4 ${textClasses[background]}`}>
+        {sectionTitle}
+      </h2>
+      {sectionSubtitle && (
+        <p class={`text-lg max-w-2xl mx-auto ${subtitleClasses[background]}`}>
+          {sectionSubtitle}
+        </p>
+      )}
+    </div>
+
+    {variant === 'grid-3' && (
+      <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        {items.map((item) => (
+          <div class="text-center">
+            <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 bg-[var(--color-primary)]/10">
+              <svg
+                class="w-8 h-8"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                style="color: var(--color-primary);"
+                set:html={getIconSvg(item.icon)}
+              />
+            </div>
+            <h3 class="text-lg font-semibold mb-2 text-gray-900">{item.title}</h3>
+            <p class="text-gray-600 text-sm">{item.description}</p>
+          </div>
+        ))}
+      </div>
+    )}
+
+    {variant === 'grid-4' && (
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+        {items.map((item) => (
+          <div class="text-center p-6 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow">
+            <div class="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 bg-[var(--color-primary)]/10">
+              <svg
+                class="w-7 h-7"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                style="color: var(--color-primary);"
+                set:html={getIconSvg(item.icon)}
+              />
+            </div>
+            <h3 class="text-base font-semibold mb-2 text-gray-900">{item.title}</h3>
+            <p class="text-gray-600 text-sm">{item.description}</p>
+          </div>
+        ))}
+      </div>
+    )}
+
+    {variant === 'icon-list' && (
+      <div class="max-w-3xl mx-auto space-y-6">
+        {items.map((item) => (
+          <div class="flex items-start gap-6 p-4 rounded-xl hover:bg-gray-50 transition-colors">
+            <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center" style="background-color: var(--color-primary);">
+              <svg
+                class="w-6 h-6 text-white"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                set:html={getIconSvg(item.icon)}
+              />
+            </div>
+            <div>
+              <h3 class="text-lg font-bold mb-1 text-gray-900">{item.title}</h3>
+              <p class="text-gray-600 text-sm">{item.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+
+    {variant === 'numbered' && (
+      <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        {items.map((item, index) => (
+          <div class="relative text-center p-6">
+            <span
+              class="absolute top-0 left-1/2 -translate-x-1/2 text-6xl font-bold opacity-10"
+              style="color: var(--color-primary);"
+            >
+              {String(index + 1).padStart(2, '0')}
+            </span>
+            <div class="relative pt-8">
+              <svg
+                class="w-8 h-8 mx-auto mb-4"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                style="color: var(--color-primary);"
+                set:html={getIconSvg(item.icon)}
+              />
+              <h3 class="text-lg font-semibold mb-2 text-gray-900">{item.title}</h3>
+              <p class="text-gray-600 text-sm">{item.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+</section>

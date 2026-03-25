@@ -1,0 +1,384 @@
+---
+interface TestimonialItem {
+  name: string;
+  role?: string;
+  avatar?: string;
+  text: string;
+  rating: number;
+}
+
+interface Props {
+  sectionTitle: string;
+  items: TestimonialItem[];
+  aggregateRating?: {
+    ratingValue: number;
+    reviewCount: number;
+  };
+  variant?: 'carousel' | 'grid' | 'single-featured' | 'masonry';
+  background?: 'white' | 'dark' | 'brand';
+}
+
+const {
+  sectionTitle,
+  items,
+  aggregateRating,
+  variant = 'grid',
+  background = 'white',
+} = Astro.props;
+
+const bgClasses = {
+  white: 'bg-white',
+  dark: 'bg-[#0f172a]',
+  brand: 'bg-[var(--color-primary)]',
+};
+
+const textClasses = {
+  white: 'text-gray-900',
+  dark: 'text-white',
+  brand: 'text-white',
+};
+
+const cardBgClasses = {
+  white: 'bg-white border border-gray-200',
+  dark: 'bg-[#1e293b] border border-gray-700',
+  brand: 'bg-white/10 border border-white/20',
+};
+
+const mutedClasses = {
+  white: 'text-gray-600',
+  dark: 'text-gray-400',
+  brand: 'text-white/70',
+};
+
+const getInitials = (name: string): string => {
+  return name
+    .split(' ')
+    .map(n => n[0])
+    .slice(0, 2)
+    .join('')
+    .toUpperCase();
+};
+
+const getAvatarBg = (name: string): string => {
+  const colors = ['#0D9488', '#6366F1', '#EC4899', '#F59E0B', '#10B981'];
+  const index = name.charCodeAt(0) % colors.length;
+  return colors[index];
+};
+
+const starPath = 'M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z';
+---
+
+<section id="testimonials" class={`py-16 md:py-24 ${bgClasses[background]}`}>
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-12">
+      <h2 class={`text-3xl md:text-4xl font-bold mb-4 ${textClasses[background]}`}>
+        {sectionTitle}
+      </h2>
+      {aggregateRating && (
+        <div class="flex items-center justify-center gap-2 mb-4">
+          <span class="text-2xl font-bold" style={background === 'dark' ? 'color: #F59E0B' : 'color: #D97706'}>
+            {aggregateRating.ratingValue}
+          </span>
+          <div class="flex">
+            {Array.from({ length: 5 }, (_, i) => (
+              <svg
+                class={`w-5 h-5 ${i < Math.round(aggregateRating.ratingValue) ? 'text-yellow-400' : 'text-gray-300'}`}
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d={starPath} />
+              </svg>
+            ))}
+          </div>
+          <span class={mutedClasses[background]}>
+            · {aggregateRating.reviewCount} avaliações
+          </span>
+        </div>
+      )}
+    </div>
+
+    {variant === 'grid' && (
+      <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        {items.map((item) => (
+          <div class={`rounded-xl p-6 ${cardBgClasses[background]}`}>
+            <div class="flex items-center gap-4 mb-4">
+              {item.avatar ? (
+                <img
+                  src={item.avatar}
+                  alt={item.name}
+                  class="w-12 h-12 rounded-full object-cover"
+                />
+              ) : (
+                <div
+                  class="w-12 h-12 rounded-full flex items-center justify-center text-white font-semibold text-sm"
+                  style={`background-color: ${getAvatarBg(item.name)};`}
+                >
+                  {getInitials(item.name)}
+                </div>
+              )}
+              <div>
+                <p class={`font-semibold ${textClasses[background]}`}>{item.name}</p>
+                {item.role && (
+                  <p class={`text-sm ${mutedClasses[background]}`}>{item.role}</p>
+                )}
+              </div>
+            </div>
+            <div class="flex mb-3">
+              {Array.from({ length: 5 }, (_, i) => (
+                <svg
+                  class={`w-5 h-5 ${i < item.rating ? 'text-yellow-400' : 'text-gray-300'}`}
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path d={starPath} />
+                </svg>
+              ))}
+            </div>
+            <p class={`text-sm leading-relaxed ${mutedClasses[background]}`}>
+              "{item.text}"
+            </p>
+          </div>
+        ))}
+      </div>
+    )}
+
+    {variant === 'carousel' && (
+      <div class="relative max-w-4xl mx-auto">
+        <div id="testimonial-carousel" class="overflow-hidden">
+          <div class="flex transition-transform duration-300" id="carousel-track">
+            {items.map((item, index) => (
+              <div
+                class="w-full flex-shrink-0 px-4"
+                data-carousel-slide={index}
+              >
+                <div class={`rounded-2xl p-8 ${cardBgClasses[background]}`}>
+                  <div class="flex items-center gap-4 mb-6">
+                    {item.avatar ? (
+                      <img
+                        src={item.avatar}
+                        alt={item.name}
+                        class="w-16 h-16 rounded-full object-cover"
+                      />
+                    ) : (
+                      <div
+                        class="w-16 h-16 rounded-full flex items-center justify-center text-white font-semibold"
+                        style={`background-color: ${getAvatarBg(item.name)};`}
+                      >
+                        {getInitials(item.name)}
+                      </div>
+                    )}
+                    <div>
+                      <p class={`text-xl font-semibold ${textClasses[background]}`}>{item.name}</p>
+                      {item.role && (
+                        <p class={`text-sm ${mutedClasses[background]}`}>{item.role}</p>
+                      )}
+                    </div>
+                  </div>
+                  <div class="flex mb-4">
+                    {Array.from({ length: 5 }, (_, i) => (
+                      <svg
+                        class={`w-6 h-6 ${i < item.rating ? 'text-yellow-400' : 'text-gray-300'}`}
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d={starPath} />
+                      </svg>
+                    ))}
+                  </div>
+                  <p class={`text-lg leading-relaxed ${mutedClasses[background]}`}>
+                    "{item.text}"
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div class="flex justify-center gap-4 mt-8">
+          <button
+            id="carousel-prev"
+            class={`w-12 h-12 rounded-full flex items-center justify-center border-2 transition-all ${
+              background === 'white'
+                ? 'border-gray-300 hover:border-[var(--color-primary)]'
+                : 'border-white/30 hover:border-white'
+            }`}
+            aria-label="Anterior"
+          >
+            <svg class={`w-5 h-5 ${textClasses[background]}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button
+            id="carousel-next"
+            class={`w-12 h-12 rounded-full flex items-center justify-center border-2 transition-all ${
+              background === 'white'
+                ? 'border-gray-300 hover:border-[var(--color-primary)]'
+                : 'border-white/30 hover:border-white'
+            }`}
+            aria-label="Próximo"
+          >
+            <svg class={`w-5 h-5 ${textClasses[background]}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+        <div class="flex justify-center gap-2 mt-4" id="carousel-dots">
+          {items.map((_, index) => (
+            <button
+              class={`h-2 rounded-full transition-all ${
+                index === 0 ? 'w-6' : 'w-2 bg-gray-400'
+              }`}
+              data-dot={index}
+              aria-label={`Slide ${index + 1}`}
+            />
+          ))}
+        </div>
+      </div>
+      <script>
+        const track = document.getElementById('carousel-track');
+        const prevBtn = document.getElementById('carousel-prev');
+        const nextBtn = document.getElementById('carousel-next');
+        const dots = document.querySelectorAll('[data-dot]');
+        let currentSlide = 0;
+        const totalSlides = dots.length;
+
+        function goToSlide(index: number) {
+          currentSlide = index;
+          if (track) {
+            track.style.transform = `translateX(-${index * 100}%)`;
+          }
+          dots.forEach((dot, i) => {
+            dot.classList.toggle('w-6', i === index);
+            dot.classList.toggle('w-2', i !== index);
+            dot.classList.toggle('bg-gray-400', i !== index);
+            dot.classList.toggle('bg-[var(--color-primary)]', i === index);
+          });
+        }
+
+        prevBtn?.addEventListener('click', () => {
+          goToSlide((currentSlide - 1 + totalSlides) % totalSlides);
+        });
+
+        nextBtn?.addEventListener('click', () => {
+          goToSlide((currentSlide + 1) % totalSlides);
+        });
+
+        dots.forEach((dot, i) => {
+          dot.addEventListener('click', () => goToSlide(i));
+        });
+      </script>
+    )}
+
+    {variant === 'single-featured' && items.length > 0 && (
+      <div class="max-w-4xl mx-auto">
+        <div class={`rounded-2xl p-8 mb-8 ${cardBgClasses[background]}`}>
+          <div class="flex items-center gap-4 mb-6">
+            {items[0].avatar ? (
+              <img
+                src={items[0].avatar}
+                alt={items[0].name}
+                class="w-20 h-20 rounded-full object-cover"
+              />
+            ) : (
+              <div
+                class="w-20 h-20 rounded-full flex items-center justify-center text-white font-semibold text-xl"
+                style={`background-color: ${getAvatarBg(items[0].name)};`}
+              >
+                {getInitials(items[0].name)}
+              </div>
+            )}
+            <div>
+              <p class={`text-2xl font-semibold ${textClasses[background]}`}>{items[0].name}</p>
+              {items[0].role && (
+                <p class={`text-sm ${mutedClasses[background]}`}>{items[0].role}</p>
+              )}
+            </div>
+          </div>
+          <div class="flex mb-4">
+            {Array.from({ length: 5 }, (_, i) => (
+              <svg
+                class={`w-6 h-6 ${i < items[0].rating ? 'text-yellow-400' : 'text-gray-300'}`}
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d={starPath} />
+              </svg>
+            ))}
+          </div>
+          <p class={`text-xl leading-relaxed ${mutedClasses[background]}`}>
+            "{items[0].text}"
+          </p>
+        </div>
+
+        {items.length > 1 && (
+          <div class="flex justify-center gap-3 flex-wrap">
+            {items.slice(1).map((item, index) => (
+              <button
+                class={`w-12 h-12 rounded-full overflow-hidden border-2 transition-all hover:scale-110 ${
+                  index === 0 ? 'border-[var(--color-primary)]' : 'border-transparent'
+                }`}
+                data-testimonial-trigger={index + 1}
+                aria-label={`Ver depoimento de ${item.name}`}
+              >
+                {item.avatar ? (
+                  <img src={item.avatar} alt={item.name} class="w-full h-full object-cover" />
+                ) : (
+                  <div
+                    class="w-full h-full flex items-center justify-center text-white font-semibold text-sm"
+                    style={`background-color: ${getAvatarBg(item.name)};`}
+                  >
+                    {getInitials(item.name)}
+                  </div>
+                )}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    )}
+
+    {variant === 'masonry' && (
+      <div class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6 max-w-6xl mx-auto">
+        {items.map((item) => (
+          <div class={`break-inside-avoid rounded-xl p-6 ${cardBgClasses[background]}`}>
+            <div class="flex items-center gap-3 mb-3">
+              {item.avatar ? (
+                <img
+                  src={item.avatar}
+                  alt={item.name}
+                  class="w-10 h-10 rounded-full object-cover"
+                />
+              ) : (
+                <div
+                  class="w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold text-xs"
+                  style={`background-color: ${getAvatarBg(item.name)};`}
+                >
+                  {getInitials(item.name)}
+                </div>
+              )}
+              <div>
+                <p class={`font-semibold text-sm ${textClasses[background]}`}>{item.name}</p>
+                {item.role && (
+                  <p class={`text-xs ${mutedClasses[background]}`}>{item.role}</p>
+                )}
+              </div>
+            </div>
+            <div class="flex mb-2">
+              {Array.from({ length: 5 }, (_, i) => (
+                <svg
+                  class={`w-4 h-4 ${i < item.rating ? 'text-yellow-400' : 'text-gray-300'}`}
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path d={starPath} />
+                </svg>
+              ))}
+            </div>
+            <p class={`text-sm leading-relaxed ${mutedClasses[background]}`}>
+              "{item.text}"
+            </p>
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+</section>

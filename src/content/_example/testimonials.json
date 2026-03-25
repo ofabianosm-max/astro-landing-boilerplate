@@ -1,0 +1,31 @@
+{
+  "sectionTitle": "O que nossos pacientes dizem",
+  "items": [
+    {
+      "name": "Maria Silva",
+      "role": "Paciente há 3 anos",
+      "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&q=80",
+      "text": "Atendimento excepcional! A Dra. Ana foi super atenciosa e me explicou todo o procedimento detalhadamente. Saí do consultório me sentindo segura e bem cuidada.",
+      "rating": 5
+    },
+    {
+      "name": "João Santos",
+      "role": "Implante dentário",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&q=80",
+      "text": "Fiz meu implante há 6 meses e o resultado ficou incrível. Profissionais competentes e estrutura de primeiro mundo.",
+      "rating": 5
+    },
+    {
+      "name": "Carolina Mendes",
+      "role": "Clareamento dental",
+      "text": "Equipe muito simpática e ambiente agradável. Meu sorriso nunca ficou tão branco! Recomendo demais.",
+      "rating": 5
+    }
+  ],
+  "aggregateRating": {
+    "ratingValue": 4.9,
+    "reviewCount": 127
+  },
+  "variant": "grid",
+  "background": "white"
+}

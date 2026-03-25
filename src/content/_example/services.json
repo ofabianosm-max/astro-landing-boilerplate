@@ -1,0 +1,29 @@
+{
+  "sectionTitle": "Nossos Serviços",
+  "sectionSubtitle": "Oferecemos tratamentos odontológicos completos com tecnologia de ponta e atendimento humanizado.",
+  "items": [
+    {
+      "name": "Clareamento Dental",
+      "description": "Técnica segura e eficaz para deixar seus dentes mais brancos e luminosos, com resultados visíveis em poucas sessões.",
+      "icon": "star",
+      "price": "A partir de R$ 800",
+      "highlight": true
+    },
+    {
+      "name": "Implante Dentário",
+      "description": "Reposição de dentes perdidos com implantes de titânio de alta qualidade. Recupere seu sorriso e qualidade de vida.",
+      "icon": "tooth",
+      "price": "A partir de R$ 3.500",
+      "highlight": true
+    },
+    {
+      "name": "Aparelho Ortodôntico",
+      "description": "Tratamento ortodôntico com brackets estéticos ou metálicos para um alinhamento perfeito dos seus dentes.",
+      "icon": "shield",
+      "price": "A partir de R$ 2.000",
+      "highlight": false
+    }
+  ],
+  "variant": "cards",
+  "background": "white"
+}

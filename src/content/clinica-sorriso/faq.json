@@ -1,0 +1,32 @@
+{
+  "sectionTitle": "Perguntas Frequentes",
+  "sectionSubtitle": "Tire suas dúvidas sobre nossos tratamentos odontológicos.",
+  "items": [
+    {
+      "question": "Quanto custa uma avaliação na Clínica Sorriso?",
+      "answer": "A primeira avaliação é gratuita! Fazemos uma consulta completa de diagnóstico onde o dentista examina seus dentes, gengivas e mucosa oral. Nessa visita tiramos raio-X panorâmico e discutimos um plano de tratamento personalizado."
+    },
+    {
+      "question": "Implante dentário dói? Quanto tempo demora para fazer?",
+      "answer": "O procedimento é feito com anestesia local, então você não sente dor durante a cirurgia. Nos dias seguintes pode haver um desconforto leve que 控制amos com medicação. O tempo total do tratamento varia de 3 a 6 meses, incluindo a cicatrização do osso (osteointegração)."
+    },
+    {
+      "question": "Qual a diferença entre o aparelho estético e o metálico?",
+      "answer": "O aparelho estético usa brackets feitos de policarbonato, cerâmica ou safira que são praticamente invisíveis. O metálico é mais resistente e geralmente mais rápido. Ambos são eficazes - a escolha depende do seu caso e preferência estética."
+    },
+    {
+      "question": "Vocês atendemconvênio odontológico? Quais?",
+      "answer": "Sim! Trabalhamos com mais de 30 convênios incluindo Porto Seguro Odonthoprev, SulAmérica Odonto, Unimed Odonto, Bradesco Dental, OdontoPrev e outros. Na sua primeira visita fazemos a verificação gratuita da cobertura do seu plano."
+    },
+    {
+      "question": "Como funciona o clareamento dental? Dói?",
+      "answer": "Oferecemos duas opções: clareamento de consultório (3 sessões de 45 min com gel de alta concentração) ou o kit domicialiar com moldeira. Nos dois casos é indolor. A sensibilidade dentária pode aumentar temporarily durante o tratamento, mas desaparece após a finalização."
+    },
+    {
+      "question": "A clínica tem estacionamento?",
+      "answer": "Sim! Temos estacionamento próprio gratuito para pacientes. São 20 vagas na frente do consultório, com manobrista nos horários de pico. Também estamos a 100 metros do ponto de ônibus na Av. Ipiranga."
+    }
+  ],
+  "variant": "accordion",
+  "background": "white"
+}

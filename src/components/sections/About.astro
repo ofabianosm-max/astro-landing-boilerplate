@@ -1,0 +1,117 @@
+---
+interface Highlight {
+  label: string;
+  value: string;
+}
+
+interface Props {
+  variant: 'professional' | 'location';
+  sectionTitle: string;
+  description: string;
+  image: string;
+  imageAlt: string;
+  highlights?: Highlight[];
+  name?: string;
+  credentials?: string[];
+  imagePosition?: 'left' | 'right';
+  background?: 'white' | 'gray';
+}
+
+const {
+  variant,
+  sectionTitle,
+  description,
+  image,
+  imageAlt,
+  highlights,
+  name,
+  credentials,
+  imagePosition = 'left',
+  background = 'white',
+} = Astro.props;
+
+const bgClasses = {
+  white: 'bg-white',
+  gray: 'bg-[#f8fafc]',
+};
+
+const textClasses = {
+  white: 'text-gray-900',
+  gray: 'text-gray-900',
+};
+
+const mutedClasses = {
+  white: 'text-gray-600',
+  gray: 'text-gray-600',
+};
+---
+
+<section id="about" class={`py-16 md:py-24 ${bgClasses[background]}`}>
+  <div class="container mx-auto px-4">
+    <div class={`grid md:grid-cols-2 gap-12 md:gap-16 items-center ${
+      imagePosition === 'right' ? 'md:flex-row-reverse' : ''
+    }`}>
+      <div class={`order-1 ${imagePosition === 'right' ? 'md:order-2' : 'md:order-1'}`}>
+        <div class="relative">
+          <img
+            src={image}
+            alt={imageAlt}
+            loading="lazy"
+            class="w-full h-auto rounded-2xl shadow-2xl object-cover aspect-[4/3]"
+          />
+          {variant === 'professional' && name && (
+            <div class="absolute -bottom-6 -right-6 md:-bottom-8 md:-right-8 bg-white rounded-xl shadow-xl p-4 md:p-6">
+              <p class="font-bold text-lg text-gray-900">{name}</p>
+              {credentials && credentials.length > 0 && (
+                <div class="flex flex-wrap gap-2 mt-2">
+                  {credentials.map((cred) => (
+                    <span class="inline-block px-2 py-1 bg-[var(--color-primary)]/10 text-[var(--color-primary)] text-xs font-medium rounded">
+                      {cred}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div class={`order-2 ${imagePosition === 'right' ? 'md:order-1' : 'md:order-2'}`}>
+        <h2 class={`text-3xl md:text-4xl font-bold mb-6 ${textClasses[background]}`}>
+          {sectionTitle}
+        </h2>
+        <p class={`text-lg mb-6 leading-relaxed ${mutedClasses[background]}`}>
+          {description}
+        </p>
+
+        {variant === 'professional' && credentials && credentials.length > 0 && (
+          <div class="flex flex-wrap gap-2 mb-6">
+            {credentials.map((cred) => (
+              <span class="inline-block px-3 py-1.5 bg-[var(--color-primary)]/10 text-[var(--color-primary)] text-sm font-medium rounded-lg">
+                {cred}
+              </span>
+            ))}
+          </div>
+        )}
+
+        {highlights && highlights.length > 0 && (
+          <div class="grid grid-cols-2 gap-4 mt-8">
+            {highlights.map((item) => (
+              <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                <p
+                  class="text-2xl md:text-3xl font-bold mb-1"
+                  style="color: var(--color-primary);"
+                >
+                  {item.value}
+                </p>
+                <p class={`text-sm ${mutedClasses[background]}`}>
+                  {item.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</section>

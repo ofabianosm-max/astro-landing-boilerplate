@@ -1,0 +1,47 @@
+---
+import BaseLanding from '@/layouts/BaseLanding.astro';
+import Hero from '@/components/sections/Hero.astro';
+import Services from '@/components/sections/Services.astro';
+import Benefits from '@/components/sections/Benefits.astro';
+import Testimonials from '@/components/sections/Testimonials.astro';
+import FAQ from '@/components/sections/FAQ.astro';
+import CTA from '@/components/sections/CTA.astro';
+import About from '@/components/sections/About.astro';
+import Contact from '@/components/sections/Contact.astro';
+import Footer from '@/components/sections/Footer.astro';
+import WhatsAppButton from '@/components/seo/WhatsAppButton.astro';
+
+import config from '@/config/clinica-sorriso';
+import hero from '@/content/clinica-sorriso/hero.json';
+import services from '@/content/clinica-sorriso/services.json';
+import benefits from '@/content/clinica-sorriso/benefits.json';
+import testimonials from '@/content/clinica-sorriso/testimonials.json';
+import faq from '@/content/clinica-sorriso/faq.json';
+import cta from '@/content/clinica-sorriso/cta.json';
+import about from '@/content/clinica-sorriso/about.json';
+import contact from '@/content/clinica-sorriso/contact.json';
+---
+
+<BaseLanding {config}>
+  <main class="min-h-screen">
+    <Hero {...hero} />
+
+    <Services {...services} />
+
+    <Benefits {...benefits} />
+
+    <About {...about} />
+
+    <Testimonials {...testimonials} />
+
+    <FAQ {...faq} />
+
+    <Contact {...contact} config={config} />
+
+    <CTA {...cta} />
+  </main>
+
+  <Footer config={config} showHours showMap />
+
+  <WhatsAppButton whatsapp={config.nap.whatsapp} />
+</BaseLanding>

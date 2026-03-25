@@ -1,0 +1,106 @@
+---
+import BaseLanding from '@/layouts/BaseLanding.astro';
+import Hero from '@/components/sections/Hero.astro';
+import Services from '@/components/sections/Services.astro';
+import Benefits from '@/components/sections/Benefits.astro';
+import Testimonials from '@/components/sections/Testimonials.astro';
+import FAQ from '@/components/sections/FAQ.astro';
+import Contact from '@/components/sections/Contact.astro';
+import CTA from '@/components/sections/CTA.astro';
+import About from '@/components/sections/About.astro';
+import Footer from '@/components/sections/Footer.astro';
+import { SiteConfigSchema } from '@/schemas/site.schema';
+import heroData from '@/content/_example/hero.json';
+import servicesData from '@/content/_example/services.json';
+import benefitsData from '@/content/_example/benefits.json';
+import testimonialsData from '@/content/_example/testimonials.json';
+import faqData from '@/content/_example/faq.json';
+import contactData from '@/content/_example/contact.json';
+import ctaData from '@/content/_example/cta.json';
+import aboutData from '@/content/_example/about.json';
+
+const testConfig = SiteConfigSchema.parse({
+  slug: 'clinica-exemplo',
+  niche: 'clinica',
+  site: {
+    name: 'Clínica Exemplo',
+    url: 'https://clinica-exemplo.com.br',
+    title: 'Clínica Exemplo - Saúde e Bem-estar',
+    description: 'Especialistas em saúde com atendimento humanizado e tecnologia de ponta.',
+    ogImage: 'https://clinica-exemplo.com.br/og-image.jpg',
+    locale: 'pt_BR',
+  },
+  nap: {
+    businessName: 'Clínica Exemplo Ltda',
+    phone: '+5554999990000',
+    whatsapp: '5554999990000',
+    email: 'contato@clinica-exemplo.com.br',
+    address: {
+      street: 'Av. Brasil',
+      number: '1500',
+      neighborhood: 'Centro',
+      city: 'Porto Alegre',
+      state: 'RS',
+      zip: '90000-000',
+      country: 'BR',
+    },
+    geo: {
+      lat: -30.0346,
+      lng: -51.2177,
+    },
+    openingHours: ['Mo-Fr 08:00-18:00', 'Sa 08:00-12:00'],
+  },
+  brand: {
+    primaryColor: '#0D9488',
+    secondaryColor: '#14B8A6',
+    logoLight: '/images/logo-light.svg',
+    logoDark: '/images/logo-dark.svg',
+    fontFamily: 'Inter',
+  },
+  social: {
+    instagram: 'https://instagram.com/clinicaexemplo',
+    facebook: 'https://facebook.com/clinicaexemplo',
+    google: 'https://maps.google.com/?place=clinica-exemplo',
+    linkedin: 'https://linkedin.com/company/clinicaexemplo',
+  },
+  integrations: {
+    whatsappCta: true,
+    googleAnalytics: 'G-TESTGA001',
+    googleTagManager: 'GTM-TEST01',
+    facebookPixel: '1234567890',
+  },
+  sections: ['hero', 'services', 'benefits', 'testimonials', 'faq', 'cta', 'footer'],
+  nav: {
+    ctaLabel: "Agendar Consulta",
+    ctaUrl: "https://wa.me/5554999990000?text=Ola!%20Gostaria%20de%20agendar%20uma%20avaliacao",
+    navLinks: [
+      { label: "Serviços", anchor: "#services" },
+      { label: "Sobre", anchor: "#about" },
+      { label: "FAQ", anchor: "#faq" },
+      { label: "Contato", anchor: "#contact" },
+    ],
+  },
+});
+---
+
+<BaseLanding config={testConfig}>
+  <main class="min-h-screen">
+    <Hero {...heroData} />
+
+    <Services {...servicesData} />
+
+    <Benefits {...benefitsData} />
+
+    <About {...aboutData} />
+
+    <Testimonials {...testimonialsData} />
+
+    <FAQ {...faqData} />
+
+    <Contact {...contactData} config={testConfig} />
+
+    <CTA {...ctaData} />
+  </main>
+
+  <Footer config={testConfig} />
+</BaseLanding>

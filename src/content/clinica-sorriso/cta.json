@@ -1,0 +1,14 @@
+{
+  "title": "Pronto para transformar seu sorriso?",
+  "description": "Agende sua avaliação gratuita e descubra como podemos ajudar você a conquistar o sorriso dos seus sonhos.",
+  "primaryCta": {
+    "label": "Agendar Avaliação Gratuita",
+    "href": "https://wa.me/5551999990000?text=Ola!%20Gostaria%20de%20agendar%20uma%20avaliacao%20gratuita"
+  },
+  "secondaryCta": {
+    "label": "Ligar Agora",
+    "href": "tel:+5551999990000"
+  },
+  "variant": "gradient",
+  "background": "brand"
+}

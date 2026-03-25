@@ -1,0 +1,39 @@
+---
+import type { SiteConfig } from '@/schemas/site.schema';
+
+interface Props {
+  config: SiteConfig;
+}
+
+const { config } = Astro.props;
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{config.site.title}</title>
+<meta name="description" content={config.site.description} />
+<link rel="canonical" href={config.site.url} />
+
+<!-- Open Graph -->
+<meta property="og:title" content={config.site.title} />
+<meta property="og:description" content={config.site.description} />
+<meta property="og:image" content={config.site.ogImage} />
+<meta property="og:url" content={config.site.url} />
+<meta property="og:locale" content={config.site.locale} />
+<meta property="og:type" content="website" />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={config.site.title} />
+<meta name="twitter:description" content={config.site.description} />
+<meta name="twitter:image" content={config.site.ogImage} />
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href={`https://fonts.googleapis.com/css2?family=${encodeURIComponent(config.brand.fontFamily)}:wght@400;500;600;700&display=swap`}
+  rel="stylesheet"
+/>
+
+<slot name="head-extra" />

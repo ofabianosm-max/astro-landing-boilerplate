@@ -1,0 +1,50 @@
+{
+  "sectionTitle": "Tratamentos Dentários",
+  "sectionSubtitle": "Oferecemos uma gama completa de serviços odontológicos para toda a família.",
+  "items": [
+    {
+      "name": "Implante Dentário",
+      "description": "Recupere dentes perdidos com implantes de titânio de alta qualidade. Procedimento seguro e resultados naturais que duram décadas.",
+      "icon": "tooth",
+      "price": "A partir de R$ 3.200",
+      "highlight": true
+    },
+    {
+      "name": "Clareamento Dental",
+      "description": "Dentes mais brancos e brilhantes em apenas 3 sessões. Técnica segura com resultados que duram até 2 anos.",
+      "icon": "star",
+      "price": "A partir de R$ 600",
+      "highlight": true
+    },
+    {
+      "name": "Aparelho Ortodôntico",
+      "description": "Alinhamento perfeito com brackets estéticos ou metálicos. Parcelamos em até 24x sem juros.",
+      "icon": "shield",
+      "price": "A partir de R$ 1.800",
+      "highlight": false
+    },
+    {
+      "name": "Tratamento de Canal",
+      "description": "Endodontia moderna com tecnologia rotatória. Sem dor, sem medo. Sessão única na maioria dos casos.",
+      "icon": "heart",
+      "price": "A partir de R$ 900",
+      "highlight": false
+    },
+    {
+      "name": "Restaurações e Estruturais",
+      "description": "Obturações estéticas em resina composta que imitam a cor natural dos dentes. Tratamento rápido e indolor.",
+      "icon": "default",
+      "price": "A partir de R$ 250",
+      "highlight": false
+    },
+    {
+      "name": "Profilaxia e Limpeza",
+      "description": "Limpeza profissional profunda para manter gengivas saudáveis. Recomendado a cada 6 meses.",
+      "icon": "scissors",
+      "price": "A partir de R$ 150",
+      "highlight": false
+    }
+  ],
+  "variant": "cards",
+  "background": "gray"
+}

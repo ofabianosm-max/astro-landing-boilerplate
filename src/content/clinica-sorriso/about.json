@@ -1,0 +1,21 @@
+{
+  "variant": "professional",
+  "title": "Sobre a Clínica Sorriso & CIA",
+  "description": "Há 15 anos no Partenon, a Clínica Sorriso & CIA nasceu do sonho de levar atendimento odontológico de excelência a todas as famílias porto-alegrenses. Nossa missão é cuidar do seu sorriso com competência, honesty and affection.\n\nContamos com uma equipe de 8 dentistas especialistas, todos com formação em instituciones reconhecidas e compromisso com atualização constante. Nosso espaço de 600m² foi projetado para oferecer conforto e segurança, com equipamentos de última geração que permitem diagnósticos precisos e tratamentos eficazes.\n\nAcreditamos que ir ao dentista não precisa ser sinônimo de medo ou ansiedade. Por isso, investimos em um ambiente acolhedor, atendimento humanizado e técnicas que minimizam desconforto. Seu sorriso está em boas mãos!",
+  "image": "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=800&q=80",
+  "stats": [
+    { "label": "Anos de experiência", "value": "15+" },
+    { "label": "Pacientes atendidos", "value": "12.000+" },
+    { "label": "Dentistas especializados", "value": "8" },
+    { "label": "Avaliação Google", "value": "4.9/5" }
+  ],
+  "features": [
+    "Equipamentos de última geração",
+    "Esterilização rigorosa",
+    "Atendimento humanizado",
+    "Financiamento em até 24x",
+    "Convênios atendidos",
+    "Estacionamento gratuito"
+  ],
+  "background": "white"
+}

@@ -1,0 +1,24 @@
+{
+  "sectionTitle": "Perguntas Frequentes",
+  "sectionSubtitle": "Encontre respostas para as dúvidas mais comuns sobre nossos serviços.",
+  "items": [
+    {
+      "question": "Quanto tempo dura o tratamento de implante dentário?",
+      "answer": "O tempo de tratamento varia de acordo com cada caso. Em média, o processo completo leva de 3 a 6 meses, incluindo a osseointegração do implante. Casos mais simples podem ser resolvidos em menor tempo."
+    },
+    {
+      "question": "O clareamento dental causa sensibilidade?",
+      "answer": "Alguns pacientes podem sentir sensibilidade temporária durante ou após o tratamento, mas é uma sensação que desaparece em poucos dias. Utilizamos técnicas e produtos de última geração para minimizar qualquer desconforto."
+    },
+    {
+      "question": "Qual é a garantia dos implantes dentários?",
+      "answer": "Oferecemos garantia de 5 anos para implantes osseointegrados. A garantia cobre defeitos de fabricação e falha na osseointegração, desde que o paciente mantenha os cuidados básicos de higiene bucal."
+    },
+    {
+      "question": "Como funciona o agendamento da primeira consulta?",
+      "answer": "Você pode agendar pelo WhatsApp, telefone ou preenchendo o formulário no site. A primeira consulta inclui avaliação completa, radiografia panorâmica e elaboração de um plano de tratamento personalizado."
+    }
+  ],
+  "variant": "accordion",
+  "background": "gray"
+}

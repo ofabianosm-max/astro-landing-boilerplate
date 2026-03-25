@@ -1,0 +1,23 @@
+{
+  "sectionTitle": "Por que nos escolher?",
+  "sectionSubtitle": "Diferenciais que fazem a diferença no seu tratamento.",
+  "items": [
+    {
+      "icon": "clock",
+      "title": "Atendimento no Horário",
+      "description": "Respeitamos seu tempo com consultas pontuais e sem filas de espera."
+    },
+    {
+      "icon": "shield-check",
+      "title": "Profissionais Certificados",
+      "description": "Equipe altamente qualificada com formação contínua e especializada."
+    },
+    {
+      "icon": "currency",
+      "title": "Preços Justos",
+      "description": " transparency in pricing and flexible payment options for all treatments."
+    }
+  ],
+  "variant": "grid-3",
+  "background": "gray"
+}
