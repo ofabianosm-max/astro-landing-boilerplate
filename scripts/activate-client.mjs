@@ -106,17 +106,33 @@ async function createRepo(slug, owner) {
   console.log('\n📦 ETAPA 1 — Criando repositório GitHub...');
 
   const fullName = `${owner}/${slug}`;
+  const repoDir = join(__dirname, '..', 'repos', slug);
 
-  // Verificar se já existe
+  // Verificar se já existe no GitHub
+  let exists = false;
   try {
-    run(`gh repo view ${fullName}`, { throw: false });
-    console.log(`⚠️  Repo ${fullName} já existe. Pulando criação.`);
-    return fullName;
+    const result = run(`gh repo view ${fullName} --jq .name`, { throw: true, stdio: 'pipe' });
+    exists = (result === slug);
   } catch {
-    // não existe, criar
+    exists = false;
   }
 
-  run(`gh repo create ${slug} --public --clone --owner ${owner}`);
+  if (exists) {
+    console.log(`⚠️  Repo ${fullName} já existe.`);
+
+    // Clone se não existir localmente
+    if (!existsSync(repoDir)) {
+      console.log(`📥 Clonando repo...`);
+      const cloneCmd = process.platform === 'win32'
+        ? `git clone "https://github.com/${fullName}.git" "${repoDir}"`
+        : `git clone https://github.com/${fullName}.git ${repoDir}`;
+      run(cloneCmd);
+    }
+    return fullName;
+  }
+
+  // Não existe, criar
+  run(`gh repo create ${slug} --public --clone`);
   console.log(`✅ Repo criado: ${fullName}`);
   return fullName;
 }
@@ -199,9 +215,9 @@ async function deployWorker(mode, data) {
   }
 
   try {
-    run(`wrangler deploy cloudflare-oauth-worker.js --name ${workerName}`, {
-      env: { CLOUDFLARE_ACCOUNT_ID: cfAccountId }
-    });
+    // Pass env vars properly for Windows compatibility
+    const env = { ...process.env, CLOUDFLARE_ACCOUNT_ID: cfAccountId };
+    run(`wrangler deploy cloudflare-oauth-worker.js --name ${workerName}`, { env });
   } catch (e) {
     console.log('⚠️  Worker deploy falhou (wrangler não está configurado ou credenciais inválidas)');
     console.log('   Você pode deployar manualmente após criar o OAuth App');
@@ -238,7 +254,10 @@ async function setupCMS(mode, data) {
 
   if (!existsSync(repoDir)) {
     try {
-      run(`git clone https://github.com/${owner}/${repoSlug}.git ${repoDir}`);
+      const cloneCmd = process.platform === 'win32'
+        ? `git clone "https://github.com/${owner}/${repoSlug}.git" "${repoDir}"`
+        : `git clone https://github.com/${owner}/${repoSlug}.git ${repoDir}`;
+      run(cloneCmd);
     } catch {
       console.log('⚠️  Não foi possível clonar o repo. Faça manualmente:');
       console.log(`   git clone https://github.com/${owner}/${repoSlug}.git`);
@@ -255,7 +274,10 @@ async function setupCMS(mode, data) {
   writeFileSync(join(repoDir, 'public', 'admin', 'config.yml'), config);
 
   try {
-    run(`cd ${repoDir} && git add . && git commit -m "feat: configurar Decap CMS" && git push origin main`);
+    const pushCmd = process.platform === 'win32'
+      ? `cd "${repoDir}" && git add . && git commit -m "feat: configurar Decap CMS" && git push origin main`
+      : `cd ${repoDir} && git add . && git commit -m "feat: configurar Decap CMS" && git push origin main`;
+    run(pushCmd);
   } catch {
     console.log('⚠️  Não foi possível fazer commit. Faça manualmente no repo.');
   }
