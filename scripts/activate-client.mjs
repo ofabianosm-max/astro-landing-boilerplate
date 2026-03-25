@@ -74,10 +74,12 @@ function generateFakeClient() {
 // ─── HELPERS ──────────────────────────────────────────────────────────────────
 
 function run(cmd, opts = {}) {
+  const env = opts.env || process.env;
   try {
     return execSync(cmd, {
       stdio: 'pipe',
       encoding: 'utf-8',
+      env: { ...process.env, ...opts.env },
       ...opts,
     }).trim();
   } catch (e) {
@@ -196,14 +198,17 @@ async function deployWorker(mode, data) {
     process.exit(1);
   }
 
-  // Criar worker se não existir (wrangler deploy)
   try {
-    run(`wrangler deploy --dry-run --name ${workerName} cloudflare-oauth-worker.js 2>/dev/null`, { throw: false, stdio: 'ignore' });
-  } catch {
-    // worker não existe, deploy
+    run(`wrangler deploy cloudflare-oauth-worker.js --name ${workerName}`, {
+      env: { CLOUDFLARE_ACCOUNT_ID: cfAccountId }
+    });
+  } catch (e) {
+    console.log('⚠️  Worker deploy falhou (wrangler não está configurado ou credenciais inválidas)');
+    console.log('   Você pode deployar manualmente após criar o OAuth App');
+    data.workerUrl = `https://cms-oauth-${data.slug}.workers.dev`;
+    console.log(`✅ Worker URL: ${data.workerUrl}`);
+    return;
   }
-
-  run(`CLOUDFLARE_ACCOUNT_ID=${cfAccountId} wrangler deploy cloudflare-oauth-worker.js --name ${workerName}`);
 
   data.workerUrl = `https://${workerName}.workers.dev`;
   console.log(`✅ Worker deployado: ${data.workerUrl}`);
@@ -215,12 +220,11 @@ async function setupCMS(mode, data) {
   console.log('\n⚙️  ETAPA 4 — Configurando CMS...');
 
   const repoSlug = data.slug;
+  const owner = process.env.GH_OWNER || run('gh api user --jq .login');
 
   // Atualizar config.yml com placeholders substituídos
   const configPath = join(__dirname, '..', 'public', 'admin', 'config.yml');
   let config = readFileSync(configPath, 'utf-8');
-
-  const owner = process.env.GH_OWNER || run('gh api user --jq .login');
 
   config = config
     .replace(/GITHUB_OWNER/g, owner)
@@ -232,15 +236,29 @@ async function setupCMS(mode, data) {
   const repoDir = join(__dirname, '..', 'repos', repoSlug);
   if (!existsSync(dirname(repoDir))) mkdirSync(dirname(repoDir), { recursive: true });
 
-  try {
-    run(`cd ${repoDir} && git pull origin main`, { throw: false });
-  } catch {
-    run(`git clone https://github.com/${owner}/${repoSlug}.git ${repoDir}`);
+  if (!existsSync(repoDir)) {
+    try {
+      run(`git clone https://github.com/${owner}/${repoSlug}.git ${repoDir}`);
+    } catch {
+      console.log('⚠️  Não foi possível clonar o repo. Faça manualmente:');
+      console.log(`   git clone https://github.com/${owner}/${repoSlug}.git`);
+      console.log('   E depois configure o config.yml manualmente');
+      return;
+    }
+  }
+
+  // Ensure directory exists
+  if (!existsSync(join(repoDir, 'public', 'admin'))) {
+    mkdirSync(join(repoDir, 'public', 'admin'), { recursive: true });
   }
 
   writeFileSync(join(repoDir, 'public', 'admin', 'config.yml'), config);
 
-  run(`cd ${repoDir} && git add . && git commit -m "feat: configurar Decap CMS" && git push origin main`);
+  try {
+    run(`cd ${repoDir} && git add . && git commit -m "feat: configurar Decap CMS" && git push origin main`);
+  } catch {
+    console.log('⚠️  Não foi possível fazer commit. Faça manualmente no repo.');
+  }
 
   console.log(`✅ CMS configurado em ${data.domain}/admin`);
 }
@@ -343,7 +361,8 @@ async function main() {
   }
 
   // Carregar .env se existir
-  loadEnv();
+  const env = loadEnv();
+  Object.assign(process.env, env);
 
   const owner = process.env.GH_OWNER || run('gh api user --jq .login');
 
