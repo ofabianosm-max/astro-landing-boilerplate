@@ -6,12 +6,15 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "activate-client": "node scripts/activate-client.mjs",
+    "delete-client": "node scripts/delete-client.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.2.1",
     "@tailwindcss/vite": "^4.2.2",
     "astro": "^5.3.0",
+    "inquirer": "^9.2.0",
     "starwind": "^1.16.2",
     "tailwindcss": "^4.2.2",
     "zod": "^3.24.1"
